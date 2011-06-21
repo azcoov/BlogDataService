@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="blog" Class="BlogDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=;Initial Catalog=;Persist Security Info=True;User ID=" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="ctweb.BlogFeed" Member="BlogFeeds">
+    <Type Name="BlogFeed">
+      <Column Name="BlogFeed_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="SubTitle" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="URL" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Author" Type="System.String" DbType="VarChar(75)" CanBeNull="true" />
+      <Association Name="BlogFeed_BlogEntry" Member="BlogEntries" ThisKey="BlogFeed_ID" OtherKey="BlogFeed_ID" Type="BlogEntry" />
+      <Association Name="BlogFeed_BlogFeedUser" Member="BlogFeedUsers" ThisKey="BlogFeed_ID" OtherKey="BlogFeed_ID" Type="BlogFeedUser" />
+    </Type>
+  </Table>
+  <Table Name="ctweb.BlogEntry" Member="BlogEntries">
+    <Type Name="BlogEntry">
+      <Column Name="BlogEntry_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Published" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Updated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PostId" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="URL" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="Author" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Content" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="BlogFeed_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Tags" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Association Name="BlogEntry_BlogEntryCategory" Member="BlogEntryCategories" ThisKey="BlogEntry_ID" OtherKey="BlogEntry_ID" Type="BlogEntryCategory" />
+      <Association Name="BlogEntry_BlogEntryComment" Member="BlogEntryComments" ThisKey="BlogEntry_ID" OtherKey="BlogEntry_ID" Type="BlogEntryComment" />
+      <Association Name="BlogFeed_BlogEntry" Member="BlogFeed" ThisKey="BlogFeed_ID" OtherKey="BlogFeed_ID" Type="BlogFeed" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="ctweb.BlogEntryCategory" Member="BlogEntryCategories">
+    <Type Name="BlogEntryCategory">
+      <Column Name="BlogEntryCategory_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BlogEntry_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BlogCategory_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="BlogEntry_BlogEntryCategory" Member="BlogEntry" ThisKey="BlogEntry_ID" OtherKey="BlogEntry_ID" Type="BlogEntry" IsForeignKey="true" />
+      <Association Name="BlogCategory_BlogEntryCategory" Member="BlogCategory" ThisKey="BlogCategory_ID" OtherKey="BlogCategory_ID" Type="BlogCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="ctweb.BlogCategory" Member="BlogCategories">
+    <Type Name="BlogCategory">
+      <Column Name="BlogCategory_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Category" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="BlogCategory_BlogEntryCategory" Member="BlogEntryCategories" ThisKey="BlogCategory_ID" OtherKey="BlogCategory_ID" Type="BlogEntryCategory" />
+    </Type>
+  </Table>
+  <Table Name="ctweb.BlogEntryComment" Member="BlogEntryComments">
+    <Type Name="BlogEntryComment">
+      <Column Name="BlogEntryComment_ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BlogEntry_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Posted" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="PostedBy" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="HomePage" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Association Name="BlogEntry_BlogEntryComment" Member="BlogEntry" ThisKey="BlogEntry_ID" OtherKey="BlogEntry_ID" Type="BlogEntry" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="ctweb.BlogUser" Member="BlogUsers">
+    <Type Name="BlogUser">
+      <Column Name="BlogUser_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="VarChar(75)" CanBeNull="true" />
+      <Column Name="NickName" Type="System.String" DbType="VarChar(25)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(320)" CanBeNull="true" />
+      <Column Name="Url" Type="System.String" DbType="VarChar(2048)" CanBeNull="true" />
+      <Association Name="BlogUser_BlogFeedUser" Member="BlogFeedUsers" ThisKey="BlogUser_ID" OtherKey="BlogUser_ID" Type="BlogFeedUser" />
+    </Type>
+  </Table>
+  <Table Name="ctweb.BlogFeedUser" Member="BlogFeedUsers">
+    <Type Name="BlogFeedUser">
+      <Column Name="BlogFeedUser_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BlogFeed_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BlogUser_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="BlogFeed_BlogFeedUser" Member="BlogFeed" ThisKey="BlogFeed_ID" OtherKey="BlogFeed_ID" Type="BlogFeed" IsForeignKey="true" />
+      <Association Name="BlogUser_BlogFeedUser" Member="BlogUser" ThisKey="BlogUser_ID" OtherKey="BlogUser_ID" Type="BlogUser" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
